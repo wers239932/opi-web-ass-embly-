@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:my="http://piromant.com/jsf"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+    <title>Lab 3</title>
+    <link rel="stylesheet" href="styles/main.css"/>
+</h:head>
+
+<h:body>
+    <div class="content">
+        <div class="main-content">
+            <div class="form-container">
+                <h:form id="main-form">
+                    <div class="input-row">
+                        <label>Выберите X:</label>
+                        <h:panelGroup id="x-input" class="X-radio-input" layout="block">
+                            <h:commandLink value="-4" styleClass="#{userRequest.x == -4 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="-4" />
+                            </h:commandLink>
+                            <h:commandLink value="-3" styleClass="#{userRequest.x == -3 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="-3" />
+                            </h:commandLink>
+                            <h:commandLink value="-2" styleClass="#{userRequest.x == -2 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="-2" />
+                            </h:commandLink>
+                            <h:commandLink value="-1" styleClass="#{userRequest.x == -1 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="-1" />
+                            </h:commandLink>
+                            <h:commandLink value="0" styleClass="#{userRequest.x == -0 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="0" />
+                            </h:commandLink>
+                            <h:commandLink value="1" styleClass="#{userRequest.x == 1 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="1" />
+                            </h:commandLink>
+                            <h:commandLink value="2" styleClass="#{userRequest.x == 2 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="2" />
+                            </h:commandLink>
+                            <h:commandLink value="3" styleClass="#{userRequest.x == 3 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="3" />
+                            </h:commandLink>
+                            <h:commandLink value="4" styleClass="#{userRequest.x == 4 ? 'x-link active' : 'x-link'}">
+                                <f:ajax render="x-input" />
+                                <f:setPropertyActionListener target="#{userRequest.x}" value="4" />
+                            </h:commandLink>
+
+                        </h:panelGroup>
+                    </div>
+                    <div class="input-row">
+                        <label>Введите Y:</label>
+                        <h:inputText id="y-value" value="#{userRequest.y}" validatorMessage="Значение Y должно между -5 и 3" converterMessage="Y должен быть числом"
+                                     styleClass="y-value">
+                            <f:validateDoubleRange minimum="-5" maximum="3"/>
+                            <f:ajax render="error-message"/>
+                        </h:inputText>
+
+                    </div>
+                    <div class="input-row">
+                        <label>Введите R:</label>
+                        <h:inputText id="r-value" value="#{userRequest.r}" validatorMessage="Значение Y должно между 1 и 4" converterMessage="Y должен быть числом"
+                                     styleClass="y-value">
+                            <f:validateDoubleRange minimum="1" maximum="4"/>
+                            <f:ajax render="error-message"/>
+                        </h:inputText>
+
+                    </div>
+
+                    <div class="button-container">
+                        <h:commandButton id="checkButton" styleClass="_button" title="Проверить"
+                                         action="#{userRequest.submit}" value="Проверить">
+                            <f:ajax execute="x-input y-value" render="resultTable hiddenResults" onevent="drawPointsEvent"/>
+                        </h:commandButton>
+                    </div>
+                    <div class="input-row">
+                        <label id="status">
+                            <h:message id="error-message" for="y-value" errorClass="errorMessage" />
+                        </label>
+                    </div>
+                    <div class="title-container">
+                        <h3>Результаты</h3>
+                    </div>
+                    <h:inputHidden id="hiddenResults" value="#{results.results}" />
+                    <div class="table-container">
+                        <h:dataTable id="resultTable" value="#{results.results}" var="attempt"  styleClass="resultTable" onchange="drawAllPoints()">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                <h:outputText value="#{attempt.id}">
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">X</f:facet>
+                                <h:outputText value="#{attempt.x}">
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Y</f:facet>
+                                <h:outputText value="#{attempt.y}">
+                                    <f:convertNumber type="number"
+                                                     maxFractionDigits="3"
+                                                     groupingUsed="false"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">R</f:facet>
+                                <h:outputText value="#{attempt.r}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Результат</f:facet>
+                                <h:outputText value="#{attempt.result ? 'Попал' : 'Не попал' }"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Время отправки</f:facet>
+                                <h:outputText value="#{attempt.getFormattedSentAt()}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Время работы</f:facet>
+                                <h:outputText value="#{attempt.workingTime}" />
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </h:form>
+                <h:form>
+                    <h:commandButton value="Next" action="#{results.nextPage}" styleClass="_button table-button" immediate="true">
+                        <f:ajax execute="@this" render="main-form:resultTable main-form:hiddenResults" onevent="drawPointsEvent" />
+                    </h:commandButton>
+                    <h:commandButton value="Previous" action="#{results.previousPage}" styleClass="_button table-button" immediate="true">
+                        <f:ajax execute="@this" render="main-form:resultTable main-form:hiddenResults" onevent="drawPointsEvent" />
+                    </h:commandButton>
+                </h:form>
+                <h:form id="coordinateForm">
+                    <h:inputHidden id="canvasX" value="#{userRequest.x}" >
+                        <f:validateDoubleRange minimum="-4" maximum="4"/>
+
+                    </h:inputHidden>
+                    <h:inputHidden id="canvasY" value="#{userRequest.y}">
+                        <f:validateDoubleRange minimum="-5" maximum="3"/> 
+                    </h:inputHidden>
+                    <h:commandButton id="canvasHiddenButton" style="display: none"
+                                     action="#{userRequest.submit}">
+                        <f:ajax onevent="drawPointsEvent" execute="canvasX canvasY" render="main-form"/>
+
+                    </h:commandButton>
+                </h:form>
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvas" width="500" height="500"></canvas>
+                <h:form>
+                    <h:commandButton styleClass="_button" action="goToIndex" value="Перейти на Стартовую" />
+                </h:form>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="${pageContext.request.contextPath}/js/script.js"></script>
+</h:body>
+
+</html>
