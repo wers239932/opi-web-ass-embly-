@@ -1,0 +1,6 @@
+plugins {
+    id 'java'
+}
+
+
+ant.importBuild 'build.xml'
