@@ -2,7 +2,6 @@
 <project name="web3" default="build" basedir=".">
     <property file="build.properties"/>
 
-    <!-- Classpath definitions -->
     <path id="compile.classpath">
         <fileset dir="${lib.dir}" includes="*.jar"/>
     </path>
@@ -23,8 +22,6 @@
         </fileset>
     </path>
 
-
-    <!-- INITIALIZATION -->
     <target name="init">
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${classes.dir}"/>
@@ -34,7 +31,6 @@
         <mkdir dir="${n2a.dir}"/>
     </target>
 
-    <!-- COMPILE MAIN SOURCES -->
     <target name="compile" depends="init">
         <javac srcdir="${src.dir}"
                destdir="${classes.dir}"
@@ -73,8 +69,6 @@
         <echo message="WildFly started, application available at: http://localhost:8080/${ant.project.name}"/>
     </target>
 
-
-    <!-- BUILD JAR -->
     <target name="build" depends="compile">
         <manifest file="${classes.dir}/MANIFEST.MF">
             <attribute name="Main-Class" value="${main.class}"/>
@@ -89,12 +83,10 @@
         </jar>
     </target>
 
-    <!-- CLEAN -->
     <target name="clean">
         <delete dir="${build.dir}"/>
     </target>
 
-    <!-- COMPILE TESTS -->
     <target name="compile-tests" depends="build">
         <javac srcdir="${test.src.dir}"
                destdir="${test.classes.dir}"
@@ -103,7 +95,6 @@
         </javac>
     </target>
 
-    <!-- RUN TESTS -->
     <target name="test" depends="compile-tests">
         <junit printsummary="yes" haltonfailure="no">
             <classpath>
@@ -117,7 +108,6 @@
         </junit>
     </target>
 
-    <!-- NATIVE2ASCII -->
     <target name="native2ascii">
         <native2ascii src="${resources.dir}"
                      dest="${n2a.dir}"
@@ -126,7 +116,6 @@
         <echo message="Converted files saved to ${n2a.dir}"/>
     </target>
 
-    <!-- GENERATE REPORT AND COMMIT -->
     <target name="report" depends="test">
         <junitreport todir="${test.reports.dir}">
             <fileset dir="${test.reports.dir}" includes="TEST-*.xml"/>
